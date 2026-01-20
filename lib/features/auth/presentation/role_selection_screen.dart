@@ -16,62 +16,76 @@ class RoleSelectionScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 40),
-              Text(
-                l10n?.selectRole ?? 'How will you use AutoCheck?',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 40),
+                        Text(
+                          l10n?.selectRole ?? 'How will you use AutoCheck?',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Choose your role to get the best experience',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              ),
+                        ),
+                        const SizedBox(height: 48),
+
+                        // Normal user option
+                        _RoleCard(
+                          icon: Icons.person,
+                          title: l10n?.normalUser ?? 'I\'m Buying a Vehicle',
+                          description:
+                              'Inspect vehicles, check for issues, and find the best deals',
+                          color: AppTheme.primaryColor,
+                          onTap: () => _selectRole(context, ref, UserRole.normalUser),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Inspection service option
+                        _RoleCard(
+                          icon: Icons.business,
+                          title: l10n?.inspectionService ?? 'I\'m an Inspection Service',
+                          description:
+                              'Offer your inspection services and connect with buyers',
+                          color: Colors.green,
+                          onTap: () =>
+                              _selectRole(context, ref, UserRole.inspectionService),
+                        ),
+
+                        const Spacer(),
+
+                        // Terms text
+                        Padding(
+                          padding: const EdgeInsets.only(top: 24),
+                          child: Text(
+                            'By continuing, you agree to our Terms of Service and Privacy Policy',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Choose your role to get the best experience',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              ),
-              const SizedBox(height: 48),
-
-              // Normal user option
-              _RoleCard(
-                icon: Icons.person,
-                title: l10n?.normalUser ?? 'I\'m Buying a Vehicle',
-                description:
-                    'Inspect vehicles, check for issues, and find the best deals',
-                color: AppTheme.primaryColor,
-                onTap: () => _selectRole(context, ref, UserRole.normalUser),
-              ),
-
-              const SizedBox(height: 16),
-
-              // Inspection service option
-              _RoleCard(
-                icon: Icons.business,
-                title: l10n?.inspectionService ?? 'I\'m an Inspection Service',
-                description:
-                    'Offer your inspection services and connect with buyers',
-                color: Colors.green,
-                onTap: () =>
-                    _selectRole(context, ref, UserRole.inspectionService),
-              ),
-
-              const Spacer(),
-
-              // Terms text
-              Text(
-                'By continuing, you agree to our Terms of Service and Privacy Policy',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

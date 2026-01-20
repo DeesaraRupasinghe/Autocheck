@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'core/theme/app_theme.dart';
 import 'core/localization/app_localizations.dart';
@@ -12,6 +13,16 @@ import 'routes/app_router.dart';
 /// Main entry point for AutoCheck app
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  // Note: Firebase configuration files (google-services.json for Android,
+  // GoogleService-Info.plist for iOS) need to be added separately
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint('Firebase initialization skipped: $e');
+    // App can still work without Firebase in offline/demo mode
+  }
 
   // Initialize Hive for local storage
   await Hive.initFlutter();

@@ -599,3 +599,458 @@ enum VehiclePriority {
   performance,
   safety,
 }
+
+/// Enhanced user model for Firebase authentication
+class FirestoreUser extends Equatable {
+  final String uid;
+  final String? displayName;
+  final String email;
+  final String? phoneNumber;
+  final String? photoUrl;
+  final UserRole role;
+  final String preferredLanguage;
+  final bool isEmailVerified;
+  final DateTime createdAt;
+  final DateTime? lastLoginAt;
+
+  const FirestoreUser({
+    required this.uid,
+    this.displayName,
+    required this.email,
+    this.phoneNumber,
+    this.photoUrl,
+    required this.role,
+    this.preferredLanguage = 'en',
+    this.isEmailVerified = false,
+    required this.createdAt,
+    this.lastLoginAt,
+  });
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'uid': uid,
+      'displayName': displayName,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'photoUrl': photoUrl,
+      'role': role.name,
+      'preferredLanguage': preferredLanguage,
+      'isEmailVerified': isEmailVerified,
+      'createdAt': createdAt.toIso8601String(),
+      'lastLoginAt': lastLoginAt?.toIso8601String(),
+    };
+  }
+
+  factory FirestoreUser.fromFirestore(Map<String, dynamic> data) {
+    return FirestoreUser(
+      uid: data['uid'] as String,
+      displayName: data['displayName'] as String?,
+      email: data['email'] as String,
+      phoneNumber: data['phoneNumber'] as String?,
+      photoUrl: data['photoUrl'] as String?,
+      role: UserRole.values.firstWhere(
+        (r) => r.name == data['role'],
+        orElse: () => UserRole.normalUser,
+      ),
+      preferredLanguage: data['preferredLanguage'] as String? ?? 'en',
+      isEmailVerified: data['isEmailVerified'] as bool? ?? false,
+      createdAt: DateTime.parse(data['createdAt'] as String),
+      lastLoginAt: data['lastLoginAt'] != null
+          ? DateTime.parse(data['lastLoginAt'] as String)
+          : null,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        uid,
+        displayName,
+        email,
+        phoneNumber,
+        photoUrl,
+        role,
+        preferredLanguage,
+        isEmailVerified,
+        createdAt,
+        lastLoginAt,
+      ];
+}
+
+/// Inspector profile model for Firestore
+class InspectorProfile extends Equatable {
+  final String id;
+  final String userId;
+  final String businessName;
+  final String ownerName;
+  final String email;
+  final String phoneNumber;
+  final String address;
+  final double latitude;
+  final double longitude;
+  final double coverageRadiusKm;
+  final List<String> inspectionTypes;
+  final double priceFrom;
+  final double? priceTo;
+  final int yearsOfExperience;
+  final List<String>? certifications;
+  final List<String> availableDays;
+  final String? openTime;
+  final String? closeTime;
+  final double rating;
+  final int reviewCount;
+  final bool isVerified;
+  final InspectorStatus status;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+
+  const InspectorProfile({
+    required this.id,
+    required this.userId,
+    required this.businessName,
+    required this.ownerName,
+    required this.email,
+    required this.phoneNumber,
+    required this.address,
+    required this.latitude,
+    required this.longitude,
+    this.coverageRadiusKm = 10.0,
+    required this.inspectionTypes,
+    required this.priceFrom,
+    this.priceTo,
+    required this.yearsOfExperience,
+    this.certifications,
+    required this.availableDays,
+    this.openTime,
+    this.closeTime,
+    this.rating = 0.0,
+    this.reviewCount = 0,
+    this.isVerified = false,
+    this.status = InspectorStatus.pendingVerification,
+    required this.createdAt,
+    this.updatedAt,
+  });
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'id': id,
+      'userId': userId,
+      'businessName': businessName,
+      'ownerName': ownerName,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'address': address,
+      'latitude': latitude,
+      'longitude': longitude,
+      'coverageRadiusKm': coverageRadiusKm,
+      'inspectionTypes': inspectionTypes,
+      'priceFrom': priceFrom,
+      'priceTo': priceTo,
+      'yearsOfExperience': yearsOfExperience,
+      'certifications': certifications,
+      'availableDays': availableDays,
+      'openTime': openTime,
+      'closeTime': closeTime,
+      'rating': rating,
+      'reviewCount': reviewCount,
+      'isVerified': isVerified,
+      'status': status.name,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+    };
+  }
+
+  factory InspectorProfile.fromFirestore(Map<String, dynamic> data) {
+    return InspectorProfile(
+      id: data['id'] as String,
+      userId: data['userId'] as String,
+      businessName: data['businessName'] as String,
+      ownerName: data['ownerName'] as String,
+      email: data['email'] as String,
+      phoneNumber: data['phoneNumber'] as String,
+      address: data['address'] as String,
+      latitude: (data['latitude'] as num).toDouble(),
+      longitude: (data['longitude'] as num).toDouble(),
+      coverageRadiusKm: (data['coverageRadiusKm'] as num?)?.toDouble() ?? 10.0,
+      inspectionTypes: List<String>.from(data['inspectionTypes'] as List),
+      priceFrom: (data['priceFrom'] as num).toDouble(),
+      priceTo: (data['priceTo'] as num?)?.toDouble(),
+      yearsOfExperience: data['yearsOfExperience'] as int,
+      certifications: data['certifications'] != null
+          ? List<String>.from(data['certifications'] as List)
+          : null,
+      availableDays: List<String>.from(data['availableDays'] as List),
+      openTime: data['openTime'] as String?,
+      closeTime: data['closeTime'] as String?,
+      rating: (data['rating'] as num?)?.toDouble() ?? 0.0,
+      reviewCount: data['reviewCount'] as int? ?? 0,
+      isVerified: data['isVerified'] as bool? ?? false,
+      status: InspectorStatus.values.firstWhere(
+        (s) => s.name == data['status'],
+        orElse: () => InspectorStatus.pendingVerification,
+      ),
+      createdAt: DateTime.parse(data['createdAt'] as String),
+      updatedAt: data['updatedAt'] != null
+          ? DateTime.parse(data['updatedAt'] as String)
+          : null,
+    );
+  }
+
+  InspectorProfile copyWith({
+    String? id,
+    String? userId,
+    String? businessName,
+    String? ownerName,
+    String? email,
+    String? phoneNumber,
+    String? address,
+    double? latitude,
+    double? longitude,
+    double? coverageRadiusKm,
+    List<String>? inspectionTypes,
+    double? priceFrom,
+    double? priceTo,
+    int? yearsOfExperience,
+    List<String>? certifications,
+    List<String>? availableDays,
+    String? openTime,
+    String? closeTime,
+    double? rating,
+    int? reviewCount,
+    bool? isVerified,
+    InspectorStatus? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return InspectorProfile(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      businessName: businessName ?? this.businessName,
+      ownerName: ownerName ?? this.ownerName,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      coverageRadiusKm: coverageRadiusKm ?? this.coverageRadiusKm,
+      inspectionTypes: inspectionTypes ?? this.inspectionTypes,
+      priceFrom: priceFrom ?? this.priceFrom,
+      priceTo: priceTo ?? this.priceTo,
+      yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
+      certifications: certifications ?? this.certifications,
+      availableDays: availableDays ?? this.availableDays,
+      openTime: openTime ?? this.openTime,
+      closeTime: closeTime ?? this.closeTime,
+      rating: rating ?? this.rating,
+      reviewCount: reviewCount ?? this.reviewCount,
+      isVerified: isVerified ?? this.isVerified,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        userId,
+        businessName,
+        ownerName,
+        email,
+        phoneNumber,
+        address,
+        latitude,
+        longitude,
+        coverageRadiusKm,
+        inspectionTypes,
+        priceFrom,
+        priceTo,
+        yearsOfExperience,
+        certifications,
+        availableDays,
+        openTime,
+        closeTime,
+        rating,
+        reviewCount,
+        isVerified,
+        status,
+        createdAt,
+        updatedAt,
+      ];
+}
+
+enum InspectorStatus {
+  pendingVerification,
+  active,
+  suspended,
+  rejected,
+}
+
+/// Inspection request model
+class InspectionRequest extends Equatable {
+  final String id;
+  final String customerId;
+  final String customerName;
+  final String customerPhone;
+  final String inspectorId;
+  final String inspectorName;
+  final String? vehicleInfo;
+  final String? location;
+  final DateTime requestedDate;
+  final String? requestedTime;
+  final String? notes;
+  final InspectionRequestStatus status;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+
+  const InspectionRequest({
+    required this.id,
+    required this.customerId,
+    required this.customerName,
+    required this.customerPhone,
+    required this.inspectorId,
+    required this.inspectorName,
+    this.vehicleInfo,
+    this.location,
+    required this.requestedDate,
+    this.requestedTime,
+    this.notes,
+    this.status = InspectionRequestStatus.pending,
+    required this.createdAt,
+    this.updatedAt,
+  });
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'id': id,
+      'customerId': customerId,
+      'customerName': customerName,
+      'customerPhone': customerPhone,
+      'inspectorId': inspectorId,
+      'inspectorName': inspectorName,
+      'vehicleInfo': vehicleInfo,
+      'location': location,
+      'requestedDate': requestedDate.toIso8601String(),
+      'requestedTime': requestedTime,
+      'notes': notes,
+      'status': status.name,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+    };
+  }
+
+  factory InspectionRequest.fromFirestore(Map<String, dynamic> data) {
+    return InspectionRequest(
+      id: data['id'] as String,
+      customerId: data['customerId'] as String,
+      customerName: data['customerName'] as String,
+      customerPhone: data['customerPhone'] as String,
+      inspectorId: data['inspectorId'] as String,
+      inspectorName: data['inspectorName'] as String,
+      vehicleInfo: data['vehicleInfo'] as String?,
+      location: data['location'] as String?,
+      requestedDate: DateTime.parse(data['requestedDate'] as String),
+      requestedTime: data['requestedTime'] as String?,
+      notes: data['notes'] as String?,
+      status: InspectionRequestStatus.values.firstWhere(
+        (s) => s.name == data['status'],
+        orElse: () => InspectionRequestStatus.pending,
+      ),
+      createdAt: DateTime.parse(data['createdAt'] as String),
+      updatedAt: data['updatedAt'] != null
+          ? DateTime.parse(data['updatedAt'] as String)
+          : null,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        customerId,
+        customerName,
+        customerPhone,
+        inspectorId,
+        inspectorName,
+        vehicleInfo,
+        location,
+        requestedDate,
+        requestedTime,
+        notes,
+        status,
+        createdAt,
+        updatedAt,
+      ];
+}
+
+enum InspectionRequestStatus {
+  pending,
+  accepted,
+  rejected,
+  completed,
+  cancelled,
+}
+
+/// Review model for inspectors
+class Review extends Equatable {
+  final String id;
+  final String inspectorId;
+  final String customerId;
+  final String customerName;
+  final String? customerPhotoUrl;
+  final double rating;
+  final String? comment;
+  final String? inspectionRequestId;
+  final DateTime createdAt;
+
+  const Review({
+    required this.id,
+    required this.inspectorId,
+    required this.customerId,
+    required this.customerName,
+    this.customerPhotoUrl,
+    required this.rating,
+    this.comment,
+    this.inspectionRequestId,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'id': id,
+      'inspectorId': inspectorId,
+      'customerId': customerId,
+      'customerName': customerName,
+      'customerPhotoUrl': customerPhotoUrl,
+      'rating': rating,
+      'comment': comment,
+      'inspectionRequestId': inspectionRequestId,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
+
+  factory Review.fromFirestore(Map<String, dynamic> data) {
+    return Review(
+      id: data['id'] as String,
+      inspectorId: data['inspectorId'] as String,
+      customerId: data['customerId'] as String,
+      customerName: data['customerName'] as String,
+      customerPhotoUrl: data['customerPhotoUrl'] as String?,
+      rating: (data['rating'] as num).toDouble(),
+      comment: data['comment'] as String?,
+      inspectionRequestId: data['inspectionRequestId'] as String?,
+      createdAt: DateTime.parse(data['createdAt'] as String),
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        inspectorId,
+        customerId,
+        customerName,
+        customerPhotoUrl,
+        rating,
+        comment,
+        inspectionRequestId,
+        createdAt,
+      ];
+}
