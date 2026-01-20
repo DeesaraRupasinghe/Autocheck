@@ -375,7 +375,7 @@ class _InspectorDashboardScreenState
           // Profile header
           CircleAvatar(
             radius: 50,
-            backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.1),
+            backgroundColor: AppTheme.primaryColor.withOpacity(0.1),
             child: Icon(
               Icons.business,
               size: 50,
@@ -424,7 +424,7 @@ class _InspectorDashboardScreenState
                   const SizedBox(height: 8),
                   LinearProgressIndicator(
                     value: 0.8,
-                    backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.1),
+                    backgroundColor: AppTheme.primaryColor.withOpacity(0.1),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -520,7 +520,7 @@ class _InspectorDashboardScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -604,7 +604,7 @@ class _StatCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
+                color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: color),

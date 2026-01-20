@@ -16,7 +16,8 @@ void main() async {
 
   // Initialize Firebase
   // Note: Firebase configuration files (google-services.json for Android,
-  // GoogleService-Info.plist for iOS) need to be added separately
+  // GoogleService-Info.plist for iOS) and firebase_options.dart (generated 
+  // via FlutterFire CLI: `flutterfire configure`) need to be added separately
   try {
     await Firebase.initializeApp();
   } catch (e) {

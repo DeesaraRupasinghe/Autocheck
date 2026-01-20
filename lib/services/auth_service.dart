@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/models.dart';
-import '../core/constants/app_constants.dart';
 
 /// Authentication service for Firebase Auth with Google Sign-In
 class AuthService {
