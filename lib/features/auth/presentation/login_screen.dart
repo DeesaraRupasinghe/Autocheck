@@ -35,7 +35,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     try {
-      final result = await ref.read(authServiceProvider).signInWithGoogle();
+      final authService = ref.read(authServiceProvider);
+      if (authService == null) {
+        setState(() {
+          _errorMessage = 'Authentication service not available. Please try again later.';
+          _isLoading = false;
+        });
+        return;
+      }
+      final result = await authService.signInWithGoogle();
 
       if (!mounted) return;
 
@@ -73,7 +81,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     try {
-      final result = await ref.read(authServiceProvider).signInWithEmail(
+      final authService = ref.read(authServiceProvider);
+      if (authService == null) {
+        setState(() {
+          _errorMessage = 'Authentication service not available. Please try again later.';
+          _isLoading = false;
+        });
+        return;
+      }
+      final result = await authService.signInWithEmail(
             _emailController.text.trim(),
             _passwordController.text,
           );

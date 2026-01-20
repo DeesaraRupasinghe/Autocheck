@@ -89,7 +89,7 @@ class SensorService {
 
     // Stability score: lower std dev = higher stability (0-100)
     // Typical idle engine should have low variance
-    final stability = max(0, min(100, 100 - (stdDev * 20)));
+    final double stability = max(0.0, min(100.0, 100.0 - (stdDev * 20))).toDouble();
 
     // Test passes if:
     // - Average acceleration is within normal range (9-11 m/s² for gravity + slight vibration)

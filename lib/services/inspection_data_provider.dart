@@ -1,4 +1,5 @@
 import '../models/models.dart';
+import '../core/constants/app_constants.dart';
 
 /// Provider for inspection checklist data
 /// Returns checklist items customized by vehicle type, fuel type, and age
