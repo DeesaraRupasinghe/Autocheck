@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/health_score_service.dart';
-import '../services/blacklist_service.dart';
-import '../services/auto_match_service.dart';
-import '../services/map_service.dart';
-import '../services/pdf_service.dart';
-import '../services/sensor_service.dart';
+import '../../services/health_score_service.dart';
+import '../../services/blacklist_service.dart';
+import '../../services/auto_match_service.dart';
+import '../../services/map_service.dart';
+import '../../services/pdf_service.dart';
+import '../../services/sensor_service.dart';
 
 /// Provider for Health Score Service
 final healthScoreServiceProvider = Provider<HealthScoreService>((ref) {
