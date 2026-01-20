@@ -70,7 +70,16 @@ class _UserRegistrationScreenState
         return;
       }
 
-      final result = await ref.read(authServiceProvider).completeUserRegistration(
+      final authService = ref.read(authServiceProvider);
+      if (authService == null) {
+        setState(() {
+          _errorMessage = 'Authentication service not available. Please try again.';
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final result = await authService.completeUserRegistration(
         uid: uid,
         displayName: _nameController.text.trim(),
         email: _emailController.text.trim(),

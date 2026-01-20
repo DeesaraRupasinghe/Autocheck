@@ -14,7 +14,7 @@ class AuthService {
     GoogleSignIn? googleSignIn,
     FirebaseFirestore? firestore,
   })  : _auth = auth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn(),
+        _googleSignIn = googleSignIn ?? GoogleSignIn(scopes: ['email', 'profile']),
         _firestore = firestore ?? FirebaseFirestore.instance;
 
   /// Stream of authentication state changes

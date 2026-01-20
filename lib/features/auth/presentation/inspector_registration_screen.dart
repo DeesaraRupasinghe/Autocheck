@@ -170,7 +170,16 @@ class _InspectorRegistrationScreenState
         createdAt: DateTime.now(),
       );
 
-      final result = await ref.read(authServiceProvider).completeInspectorRegistration(
+      final authService = ref.read(authServiceProvider);
+      if (authService == null) {
+        setState(() {
+          _errorMessage = 'Authentication service not available. Please try again.';
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final result = await authService.completeInspectorRegistration(
         uid: uid,
         displayName: _ownerNameController.text.trim(),
         email: _emailController.text.trim(),
