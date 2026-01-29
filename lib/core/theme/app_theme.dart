@@ -5,21 +5,25 @@ import 'package:google_fonts/google_fonts.dart';
 /// Design System:
 /// - Primary: Electric Blue #2563EB
 /// - Secondary/Text: Slate Dark #1E293B
+/// - Text Secondary: #64748B
 /// - Success: Emerald Green #10B981
 /// - Error: Rose Red #E11D48
 /// - Background: Off-white #F8FAFC
 /// - Surface/Cards: Pure White #FFFFFF
+/// - Divider/Border: #E5E7EB
 /// - Border Radius: 16.0 globally
 /// - Typography: Poppins (headings) + Inter (body)
 class AppTheme {
   // Design System Colors
   static const Color primaryColor = Color(0xFF2563EB);    // Electric Blue
-  static const Color secondaryColor = Color(0xFF1E293B);  // Slate Dark
+  static const Color secondaryColor = Color(0xFF1E293B);  // Slate Dark (Text Primary)
+  static const Color textSecondaryColor = Color(0xFF64748B); // Text Secondary
   static const Color errorColor = Color(0xFFE11D48);      // Rose Red
   static const Color warningColor = Color(0xFFFFA726);    // Amber (warning)
   static const Color successColor = Color(0xFF10B981);    // Emerald Green
   static const Color backgroundColor = Color(0xFFF8FAFC); // Off-white
   static const Color surfaceColor = Color(0xFFFFFFFF);    // Pure White
+  static const Color dividerColor = Color(0xFFE5E7EB);    // Divider/Border
 
   // Risk level colors
   static const Color riskGreen = Color(0xFF10B981);  // Emerald Green
@@ -126,7 +130,8 @@ class AppTheme {
         onError: Colors.white,
         surface: surfaceColor,
         onSurface: secondaryColor,
-        onSurfaceVariant: secondaryColor.withValues(alpha: 0.7),
+        onSurfaceVariant: textSecondaryColor, // Use design system Text Secondary
+        outline: dividerColor, // Use design system Divider/Border color
       ),
       scaffoldBackgroundColor: backgroundColor,
       textTheme: textTheme,
@@ -174,7 +179,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),
-          side: BorderSide(color: primaryColor.withValues(alpha: 0.5)),
+          side: const BorderSide(color: dividerColor), // Use design system border
           textStyle: GoogleFonts.inter(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -194,11 +199,11 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(color: secondaryColor.withValues(alpha: 0.2)),
+          borderSide: const BorderSide(color: dividerColor),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(color: secondaryColor.withValues(alpha: 0.2)),
+          borderSide: const BorderSide(color: dividerColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -214,11 +219,11 @@ class AppTheme {
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
           fontWeight: FontWeight.w500,
-          color: secondaryColor.withValues(alpha: 0.7),
+          color: textSecondaryColor,
         ),
         hintStyle: GoogleFonts.inter(
           fontSize: 14,
-          color: secondaryColor.withValues(alpha: 0.5),
+          color: textSecondaryColor,
         ),
       ),
       chipTheme: ChipThemeData(
@@ -245,8 +250,8 @@ class AppTheme {
           fontWeight: FontWeight.w500,
         ),
       ),
-      dividerTheme: DividerThemeData(
-        color: secondaryColor.withValues(alpha: 0.1),
+      dividerTheme: const DividerThemeData(
+        color: dividerColor, // Use design system Divider/Border color
         thickness: 1,
       ),
       snackBarTheme: SnackBarThemeData(
