@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// Large primary action button for the app
+/// Follows design system: min 48px height, 16.0 border radius
 class PrimaryButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -22,13 +23,9 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? double.infinity,
-      height: 56,
+      height: 56, // Above min touch target of 48px
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        ),
         child: isLoading
             ? const SizedBox(
                 width: 24,
@@ -54,6 +51,7 @@ class PrimaryButton extends StatelessWidget {
 }
 
 /// Secondary outlined button
+/// Follows design system: min 48px height, 16.0 border radius
 class SecondaryButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -72,7 +70,7 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? double.infinity,
-      height: 56,
+      height: 56, // Above min touch target of 48px
       child: OutlinedButton(
         onPressed: onPressed,
         child: Row(
@@ -91,6 +89,7 @@ class SecondaryButton extends StatelessWidget {
 }
 
 /// Info card with icon for home screen features
+/// Follows design system: 16.0 border radius, soft shadows, 16px internal padding
 class FeatureCard extends StatelessWidget {
   final String title;
   final String description;
@@ -110,55 +109,66 @@ class FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardColor = color ?? Theme.of(context).colorScheme.primary;
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: cardColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+        boxShadow: isDark ? null : AppTheme.softShadow,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.spacingMd),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: cardColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        icon,
+                        size: 28,
+                        color: cardColor,
+                      ),
                     ),
-                    child: Icon(
-                      icon,
-                      size: 28,
-                      color: cardColor,
+                    const SizedBox(height: 12),
+                    Flexible(
+                      child: Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Flexible(
-                    child: Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    const SizedBox(height: 4),
+                    Flexible(
+                      child: Text(
+                        description,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Flexible(
-                    child: Text(
-                      description,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -251,7 +261,7 @@ class HealthScoreWidget extends StatelessWidget {
   }
 }
 
-/// Risk indicator badge
+/// Risk indicator badge with stadium border (pill shape)
 class RiskBadge extends StatelessWidget {
   final String label;
   final Color color;
@@ -288,7 +298,7 @@ class RiskBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20), // Stadium/pill shape
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
@@ -333,7 +343,7 @@ class EmptyStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(AppTheme.spacingXl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -342,14 +352,14 @@ class EmptyStateWidget extends StatelessWidget {
               size: 64,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppTheme.spacingMd),
             Text(
               title,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
             if (description != null) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: AppTheme.spacingSm),
               Text(
                 description!,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -359,7 +369,7 @@ class EmptyStateWidget extends StatelessWidget {
               ),
             ],
             if (buttonText != null && onButtonPressed != null) ...[
-              const SizedBox(height: 24),
+              const SizedBox(height: AppTheme.spacingLg),
               ElevatedButton(
                 onPressed: onButtonPressed,
                 child: Text(buttonText!),
@@ -372,7 +382,7 @@ class EmptyStateWidget extends StatelessWidget {
   }
 }
 
-/// Loading overlay
+/// Loading overlay with soft card
 class LoadingOverlay extends StatelessWidget {
   final bool isLoading;
   final Widget child;
@@ -394,19 +404,22 @@ class LoadingOverlay extends StatelessWidget {
           Container(
             color: Colors.black54,
             child: Center(
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator(),
-                      if (message != null) ...[
-                        const SizedBox(height: 16),
-                        Text(message!),
-                      ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+                  boxShadow: AppTheme.softShadow,
+                ),
+                padding: const EdgeInsets.all(AppTheme.spacingXl),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircularProgressIndicator(),
+                    if (message != null) ...[
+                      const SizedBox(height: AppTheme.spacingMd),
+                      Text(message!),
                     ],
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -446,6 +459,45 @@ class SectionHeader extends StatelessWidget {
             child: Text(actionText!),
           ),
       ],
+    );
+  }
+}
+
+/// Styled card with soft shadow following the design system
+class StyledCard extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+  final VoidCallback? onTap;
+
+  const StyledCard({
+    super.key,
+    required this.child,
+    this.padding,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+        boxShadow: isDark ? null : AppTheme.softShadow,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+          child: Padding(
+            padding: padding ?? const EdgeInsets.all(AppTheme.spacingMd),
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }
