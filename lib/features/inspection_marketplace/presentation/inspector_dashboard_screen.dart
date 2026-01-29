@@ -479,11 +479,18 @@ class _InspectorDashboardScreenState
               iconColor: Colors.red,
               textColor: Colors.red,
               onTap: () async {
-                await ref.read(authServiceProvider).signOut();
-                if (mounted) context.go('/login');
+                final authService = ref.read(authServiceProvider);
+                if (authService == null) return;
+
+                await authService.signOut();
+
+                if (mounted) {
+                  context.go('/login');
+                }
               },
             ),
           ),
+
         ],
       ),
     );
@@ -882,4 +889,5 @@ class _SettingsTile extends StatelessWidget {
       onTap: onTap,
     );
   }
+
 }
