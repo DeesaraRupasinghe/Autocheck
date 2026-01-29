@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/common_widgets.dart';
 
 /// Vehicle comparison screen
@@ -205,7 +206,7 @@ class _VehicleCompareCard extends StatelessWidget {
       width: 200,
       margin: const EdgeInsets.only(right: 12),
       child: Card(
-        color: isBest ? Colors.green.withValues(alpha: 0.1) : null,
+        color: isBest ? AppTheme.successColor.withValues(alpha: 0.1) : null,
         child: Stack(
           children: [
             Padding(
@@ -219,7 +220,7 @@ class _VehicleCompareCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.green,
+                        color: AppTheme.successColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Text(
