@@ -20,6 +20,7 @@ import '../features/inspection_marketplace/presentation/inspector_dashboard_scre
 import '../features/vehicle_comparison/presentation/comparison_screen.dart';
 import '../features/reports/presentation/reports_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import '../features/dashboard/presentation/dashboard_screen.dart';
 import 'home_screen.dart';
 import 'main_shell.dart';
 
@@ -80,6 +81,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/home',
             builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/dashboard',
+            builder: (context, state) => const DashboardScreen(),
           ),
           GoRoute(
             path: '/inspect',
