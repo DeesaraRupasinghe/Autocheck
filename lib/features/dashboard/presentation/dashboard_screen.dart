@@ -22,6 +22,11 @@ class DashboardScreen extends StatelessWidget {
               // Header with greeting and avatar
               _buildHeader(context),
 
+              const SizedBox(height: AppTheme.spacingMd),
+
+              // Search bar
+              _buildSearchBar(context, isDark),
+
               const SizedBox(height: AppTheme.spacingLg),
 
               // Stats Section - Horizontally scrollable
@@ -42,6 +47,44 @@ class DashboardScreen extends StatelessWidget {
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add),
         label: const Text('New Inspection'),
+      ),
+    );
+  }
+
+  /// Builds the search bar widget
+  Widget _buildSearchBar(BuildContext context, bool isDark) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+        boxShadow: isDark ? null : AppTheme.subtleShadow,
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'Search inspections...',
+          prefixIcon: Icon(
+            Icons.search,
+            color: AppTheme.textSecondaryColor,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 1.5),
+          ),
+          filled: true,
+          fillColor: Theme.of(context).colorScheme.surface,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppTheme.spacingMd,
+            vertical: 14,
+          ),
+        ),
       ),
     );
   }
@@ -200,7 +243,7 @@ class DashboardScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          title: 'Recent Inspections',
+          title: 'Recent Activity',
           actionText: 'See all',
           onAction: () => context.go('/history'),
         ),
