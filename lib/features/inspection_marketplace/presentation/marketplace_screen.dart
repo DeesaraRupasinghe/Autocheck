@@ -209,20 +209,20 @@ class _ServiceCard extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.green.withValues(alpha: 0.1),
+                                color: AppTheme.successColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.verified,
-                                      size: 14, color: Colors.green),
-                                  SizedBox(width: 4),
+                                      size: 14, color: AppTheme.successColor),
+                                  const SizedBox(width: 4),
                                   Text(
                                     'Verified',
                                     style: TextStyle(
                                       fontSize: 10,
-                                      color: Colors.green,
+                                      color: AppTheme.successColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

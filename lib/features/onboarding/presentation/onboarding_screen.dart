@@ -27,13 +27,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       icon: Icons.checklist_rtl,
       titleKey: 'onboarding_title_2',
       descriptionKey: 'onboarding_desc_2',
-      color: Colors.green,
+      color: AppTheme.successColor,
     ),
     OnboardingPage(
       icon: Icons.security,
       titleKey: 'onboarding_title_3',
       descriptionKey: 'onboarding_desc_3',
-      color: Colors.orange,
+      color: AppTheme.warningColor,
     ),
   ];
 
@@ -110,11 +110,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: AppTheme.spacingXl),
 
             // Next/Get Started button
             Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(AppTheme.spacingLg),
               child: PrimaryButton(
                 text: _currentPage == _pages.length - 1
                     ? (l10n?.getStarted ?? 'Get Started')
@@ -137,12 +137,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     AppLocalizations? l10n,
   ) {
     return Padding(
-      padding: const EdgeInsets.all(32),
+      padding: const EdgeInsets.all(AppTheme.spacingXl),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(AppTheme.spacingXl),
             decoration: BoxDecoration(
               color: page.color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
@@ -161,7 +161,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppTheme.spacingMd),
           Text(
             l10n?.get(page.descriptionKey) ?? page.descriptionKey,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(

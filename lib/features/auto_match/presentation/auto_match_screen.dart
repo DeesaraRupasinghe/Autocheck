@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../../../core/providers/service_providers.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/common_widgets.dart';
 import '../../../models/models.dart';
 
@@ -562,10 +563,10 @@ class _RecommendationCard extends StatelessWidget {
           '${recommendation.matchScore}% match',
           style: TextStyle(
             color: recommendation.matchScore >= 70
-                ? Colors.green
+                ? AppTheme.successColor
                 : recommendation.matchScore >= 50
-                    ? Colors.orange
-                    : Colors.grey,
+                    ? AppTheme.warningColor
+                    : AppTheme.secondaryColor.withValues(alpha: 0.5),
           ),
         ),
         children: [
@@ -591,12 +592,12 @@ class _RecommendationCard extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 // Pros
-                _buildSection(context, 'Pros', recommendation.pros, Icons.check_circle, Colors.green),
+                _buildSection(context, 'Pros', recommendation.pros, Icons.check_circle, AppTheme.successColor),
 
                 const SizedBox(height: 12),
 
                 // Cons
-                _buildSection(context, 'Cons', recommendation.cons, Icons.warning, Colors.orange),
+                _buildSection(context, 'Cons', recommendation.cons, Icons.warning, AppTheme.warningColor),
 
                 const SizedBox(height: 16),
 
@@ -624,7 +625,7 @@ class _RecommendationCard extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 // Common issues
-                _buildSection(context, 'Common Issues', recommendation.commonIssues, Icons.error_outline, Colors.red),
+                _buildSection(context, 'Common Issues', recommendation.commonIssues, Icons.error_outline, AppTheme.errorColor),
 
                 const SizedBox(height: 12),
 
@@ -640,7 +641,7 @@ class _RecommendationCard extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.shield, size: 16, color: Colors.blue),
+                        Icon(Icons.shield, size: 16, color: AppTheme.primaryColor),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(

@@ -426,18 +426,18 @@ class _HealthScoreScreenState extends ConsumerState<HealthScoreScreen>
     final test = widget.vibrationTest!;
     return Card(
       color: test.passed
-          ? Colors.green.withValues(alpha: 0.1)
-          : Colors.orange.withValues(alpha: 0.1),
+          ? AppTheme.successColor.withValues(alpha: 0.1)
+          : AppTheme.warningColor.withValues(alpha: 0.1),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
           children: [
             Icon(
               test.passed ? Icons.check_circle : Icons.warning,
-              color: test.passed ? Colors.green : Colors.orange,
+              color: test.passed ? AppTheme.successColor : AppTheme.warningColor,
               size: 40,
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppTheme.spacingMd),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               Icons.directions_car,
               color: Theme.of(context).colorScheme.primary,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppTheme.spacingSm),
             Text(
               l10n?.appName ?? 'AutoCheck',
               style: TextStyle(
@@ -41,11 +42,11 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spacingMd),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Welcome section
+            // Welcome section - Hero card with gradient
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -53,12 +54,19 @@ class HomeScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppTheme.primaryColor,
-                    AppTheme.primaryColor.withValues(alpha: 0.8),
+                    AppTheme.primaryColor.withValues(alpha: 0.85),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+                boxShadow: isDark ? null : [
+                  BoxShadow(
+                    color: AppTheme.primaryColor.withValues(alpha: 0.3),
+                    blurRadius: 16,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,19 +78,22 @@ class HomeScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppTheme.spacingSm),
                   Text(
                     'Your trusted vehicle buying assistant',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.white.withValues(alpha: 0.9),
                         ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppTheme.spacingMd),
                   ElevatedButton.icon(
                     onPressed: () => context.push('/auto-match'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: AppTheme.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+                      ),
                     ),
                     icon: const Icon(Icons.search),
                     label: Text(l10n?.findPerfectVehicle ?? 'Find Your Perfect Vehicle'),
@@ -91,7 +102,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: AppTheme.spacingLg),
 
             // Quick actions
             SectionHeader(
@@ -114,34 +125,34 @@ class HomeScreen extends StatelessWidget {
                   title: l10n?.autoMatch ?? 'Auto Match',
                   description: 'Get vehicle recommendations based on your needs',
                   icon: Icons.auto_awesome,
-                  color: Colors.purple,
+                  color: AppTheme.primaryColor,
                   onTap: () => context.push('/auto-match'),
                 ),
                 FeatureCard(
                   title: l10n?.startInspection ?? 'Start Inspection',
                   description: 'Check any vehicle with our guided checklist',
                   icon: Icons.checklist_rtl,
-                  color: Colors.blue,
+                  color: AppTheme.successColor,
                   onTap: () => context.go('/inspect'),
                 ),
                 FeatureCard(
                   title: l10n?.blacklistCheck ?? 'Blacklist Check',
                   description: 'Check for accidents, theft, or tampering',
                   icon: Icons.security,
-                  color: Colors.orange,
+                  color: AppTheme.warningColor,
                   onTap: () => context.push('/blacklist-check'),
                 ),
                 FeatureCard(
                   title: l10n?.findInspector ?? 'Find Inspector',
                   description: 'Book professional inspection services',
                   icon: Icons.location_on,
-                  color: Colors.green,
+                  color: AppTheme.riskGreen,
                   onTap: () => context.push('/marketplace'),
                 ),
               ],
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: AppTheme.spacingLg),
 
             // Tips section
             SectionHeader(
@@ -158,6 +169,7 @@ class HomeScreen extends StatelessWidget {
               description:
                   'Never pay before seeing the vehicle. Always verify documents match the vehicle.',
               color: AppTheme.warningColor,
+              isDark: isDark,
             ),
             const SizedBox(height: 12),
             _buildTipCard(
@@ -166,7 +178,8 @@ class HomeScreen extends StatelessWidget {
               title: 'Flood Damage Signs',
               description:
                   'Check for water stains under seats, musty smells, and rust in hidden areas.',
-              color: Colors.blue,
+              color: AppTheme.primaryColor,
+              isDark: isDark,
             ),
             const SizedBox(height: 12),
             _buildTipCard(
@@ -175,7 +188,8 @@ class HomeScreen extends StatelessWidget {
               title: 'Odometer Tampering',
               description:
                   'Compare wear on pedals and steering with claimed mileage. Check service records.',
-              color: Colors.red,
+              color: AppTheme.errorColor,
+              isDark: isDark,
             ),
           ],
         ),
@@ -189,22 +203,39 @@ class HomeScreen extends StatelessWidget {
     required String title,
     required String description,
     required Color color,
+    required bool isDark,
   }) {
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+        boxShadow: isDark ? null : AppTheme.softShadow,
+      ),
       child: ListTile(
+        contentPadding: const EdgeInsets.all(AppTheme.spacingMd),
         leading: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: color),
         ),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
         ),
-        subtitle: Text(description),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Text(
+            description,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+        ),
         isThreeLine: true,
       ),
     );

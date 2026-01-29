@@ -112,10 +112,10 @@ class AutoCheckApp extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.error_outline,
                     size: 64,
-                    color: Colors.red,
+                    color: AppTheme.errorColor,
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -129,7 +129,7 @@ class AutoCheckApp extends ConsumerWidget {
                   Text(
                     error.toString(),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.grey),
+                    style: TextStyle(color: AppTheme.secondaryColor.withValues(alpha: 0.6)),
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(

@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../../../core/providers/service_providers.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/common_widgets.dart';
 import '../../../models/models.dart';
 import '../../../services/inspection_data_provider.dart';
@@ -403,7 +404,7 @@ class _InspectionItemCard extends StatelessWidget {
                   child: _AnswerButton(
                     label: 'Yes',
                     icon: Icons.check,
-                    color: Colors.green,
+                    color: AppTheme.successColor,
                     isSelected: item.answer == InspectionAnswer.yes,
                     onTap: () => onAnswerSelected(InspectionAnswer.yes),
                   ),
@@ -413,7 +414,7 @@ class _InspectionItemCard extends StatelessWidget {
                   child: _AnswerButton(
                     label: 'No',
                     icon: Icons.close,
-                    color: Colors.red,
+                    color: AppTheme.errorColor,
                     isSelected: item.answer == InspectionAnswer.no,
                     onTap: () => onAnswerSelected(InspectionAnswer.no),
                   ),
@@ -423,7 +424,7 @@ class _InspectionItemCard extends StatelessWidget {
                   child: _AnswerButton(
                     label: 'Not Sure',
                     icon: Icons.help_outline,
-                    color: Colors.orange,
+                    color: AppTheme.warningColor,
                     isSelected: item.answer == InspectionAnswer.notSure,
                     onTap: () => onAnswerSelected(InspectionAnswer.notSure),
                   ),
@@ -452,20 +453,20 @@ class _InspectionItemCard extends StatelessWidget {
   Color _getStatusColor(BuildContext context) {
     switch (item.answer) {
       case InspectionAnswer.yes:
-        return Colors.green;
+        return AppTheme.successColor;
       case InspectionAnswer.no:
-        return Colors.red;
+        return AppTheme.errorColor;
       case InspectionAnswer.notSure:
-        return Colors.orange;
+        return AppTheme.warningColor;
       case null:
         return Theme.of(context).colorScheme.outline;
     }
   }
 
   Color _getRiskColor() {
-    if (item.riskWeight >= 8) return Colors.red;
-    if (item.riskWeight >= 5) return Colors.orange;
-    return Colors.green;
+    if (item.riskWeight >= 8) return AppTheme.errorColor;
+    if (item.riskWeight >= 5) return AppTheme.warningColor;
+    return AppTheme.successColor;
   }
 }
 
@@ -653,14 +654,14 @@ class _VibrationTestDialogState extends ConsumerState<_VibrationTestDialog> {
         Icon(
           result.passed ? Icons.check_circle : Icons.warning,
           size: 64,
-          color: result.passed ? Colors.green : Colors.orange,
+          color: result.passed ? AppTheme.successColor : AppTheme.warningColor,
         ),
         const SizedBox(height: 16),
         Text(
           result.passed ? 'Test Passed' : 'Test Failed',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: result.passed ? Colors.green : Colors.orange,
+                color: result.passed ? AppTheme.successColor : AppTheme.warningColor,
               ),
         ),
         const SizedBox(height: 16),
@@ -704,15 +705,15 @@ class _VibrationTestResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: result.passed
-          ? Colors.green.withValues(alpha: 0.1)
-          : Colors.orange.withValues(alpha: 0.1),
+          ? AppTheme.successColor.withValues(alpha: 0.1)
+          : AppTheme.warningColor.withValues(alpha: 0.1),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
             Icon(
               result.passed ? Icons.check_circle : Icons.warning,
-              color: result.passed ? Colors.green : Colors.orange,
+              color: result.passed ? AppTheme.successColor : AppTheme.warningColor,
               size: 32,
             ),
             const SizedBox(width: 16),

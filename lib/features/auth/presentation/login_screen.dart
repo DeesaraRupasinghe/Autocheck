@@ -123,7 +123,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(AppTheme.spacingLg),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -135,7 +135,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           size: 64,
                           color: AppTheme.primaryColor,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: AppTheme.spacingMd),
                         Text(
                           'Welcome to AutoCheck',
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -143,7 +143,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppTheme.spacingSm),
                         Text(
                           'Sign in to continue',
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -158,20 +158,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         if (_errorMessage != null)
                           Container(
                             padding: const EdgeInsets.all(12),
-                            margin: const EdgeInsets.only(bottom: 16),
+                            margin: const EdgeInsets.only(bottom: AppTheme.spacingMd),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.red.shade200),
+                              color: AppTheme.errorColor.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+                              border: Border.all(color: AppTheme.errorColor.withValues(alpha: 0.3)),
                             ),
                             child: Row(
                               children: [
-                                Icon(Icons.error_outline, color: Colors.red.shade700),
+                                Icon(Icons.error_outline, color: AppTheme.errorColor),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
                                     _errorMessage!,
-                                    style: TextStyle(color: Colors.red.shade700),
+                                    style: TextStyle(color: AppTheme.errorColor),
                                   ),
                                 ),
                               ],
@@ -184,14 +184,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           isLoading: _isLoading,
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: AppTheme.spacingLg),
 
                         // Divider
                         Row(
                           children: [
                             const Expanded(child: Divider()),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
                               child: Text(
                                 'or',
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -203,7 +203,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ],
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: AppTheme.spacingLg),
 
                         // Email/Password form
                         Form(
@@ -230,7 +230,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   return null;
                                 },
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppTheme.spacingMd),
                               TextFormField(
                                 controller: _passwordController,
                                 obscureText: _obscurePassword,
@@ -276,7 +276,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(height: AppTheme.spacingMd),
 
                         // Sign in button
                         PrimaryButton(
@@ -328,14 +328,9 @@ class _GoogleSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
+      height: 56, // Above min touch target
       child: OutlinedButton(
         onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
         child: isLoading
             ? const SizedBox(
                 width: 24,
@@ -364,9 +359,9 @@ class _GoogleSignInButton extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Text(
+                  Text(
                     'Continue with Google',
-                    style: TextStyle(fontSize: 16),
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ],
               ),
