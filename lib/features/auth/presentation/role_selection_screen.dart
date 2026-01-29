@@ -61,7 +61,7 @@ class RoleSelectionScreen extends ConsumerWidget {
                           title: l10n?.inspectionService ?? 'I\'m an Inspection Service',
                           description:
                               'Offer your inspection services and connect with buyers',
-                          color: Colors.green,
+                          color: AppTheme.successColor,
                           onTap: () =>
                               _selectRole(context, ref, UserRole.inspectionService),
                         ),

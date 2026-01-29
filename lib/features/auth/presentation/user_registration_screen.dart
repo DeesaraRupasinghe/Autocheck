@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/common_widgets.dart';
 import '../../../core/providers/auth_provider.dart';
 
@@ -142,18 +143,18 @@ class _UserRegistrationScreenState
                     padding: const EdgeInsets.all(12),
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.red.shade200),
+                      color: AppTheme.errorColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+                      border: Border.all(color: AppTheme.errorColor.withValues(alpha: 0.3)),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.error_outline, color: Colors.red.shade700),
+                        Icon(Icons.error_outline, color: AppTheme.errorColor),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             _errorMessage!,
-                            style: TextStyle(color: Colors.red.shade700),
+                            style: TextStyle(color: AppTheme.errorColor),
                           ),
                         ),
                       ],
@@ -193,7 +194,7 @@ class _UserRegistrationScreenState
                     hintText: 'Enter your email',
                     prefixIcon: const Icon(Icons.email_outlined),
                     suffixIcon: widget.firebaseUser?.email != null
-                        ? const Icon(Icons.verified, color: Colors.green)
+                        ? Icon(Icons.verified, color: AppTheme.successColor)
                         : null,
                   ),
                   validator: (value) {
